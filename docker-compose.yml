@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: docker-postgres
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_PASSWORD=mydbpass
+      - POSTGRES_DB=mydockerdb
+    networks:
+      - monorepo-network
+    volumes:
+      - monorepo-volume:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  backend: 
+    build: 
+      context: .
+      dockerfile: docker/dockerfile.backend
+    container_name: backend-container
+    ports:
+      - 4000:4000
+    environment:
+      - DATABASE_URL=postgresql://postgres:mydbpass@postgres:5432/mydockerdb
+    networks:
+      - monorepo-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  websocket: 
+    build: 
+      context: .
+      dockerfile: docker/dockerfile.websocket
+    container_name: websocket-container
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_URL=postgresql://postgres:mydbpass@postgres:5432/mydockerdb
+    networks:
+      - monorepo-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  web: 
+    build: 
+      context: .
+      dockerfile: docker/dockerfile.web
+    container_name: web-container
+    ports:
+      - 3000:3000
+    environment:
+      - DATABASE_URL=postgresql://postgres:mydbpass@postgres:5432/mydockerdb
+    networks:
+      - monorepo-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+networks:
+  monorepo-network:
+
+volumes:
+  monorepo-volume:

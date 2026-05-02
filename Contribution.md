@@ -17,3 +17,4 @@
 
 
 # Docker-compose Installation
+1. docker-compose up
