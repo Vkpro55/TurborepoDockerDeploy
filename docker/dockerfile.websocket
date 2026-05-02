@@ -1,0 +1,16 @@
+FROM node:20-alpine
+
+WORKDIR /usr/src/app
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
+COPY apps/websocket ./apps/websocket
+COPY packages ./packages
+
+RUN npm install -g pnpm
+RUN pnpm install 
+
+RUN pnpm run db:generate
+RUN pnpm run websocket:build
+
+EXPOSE 8080
+CMD ["pnpm", "run", "websocket:start"]

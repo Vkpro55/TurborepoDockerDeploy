@@ -1,0 +1,16 @@
+FROM node:20-alpine
+
+WORKDIR /usr/src/app
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
+COPY apps/backend ./apps/backend
+COPY packages ./packages
+
+RUN npm install -g pnpm
+RUN pnpm install 
+
+RUN pnpm run db:generate
+RUN pnpm run backend:build
+
+EXPOSE 4000
+CMD ["pnpm", "run", "backend:start"]
