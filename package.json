@@ -9,7 +9,11 @@
     "check-types": "turbo run check-types",
     "db:migrate": "cd packages/db && pnpm dlx prisma migrate dev && cd ../../",
     "db:generate": "cd packages/db && pnpm dlx prisma generate && cd ../../",
-    "start:web": "cd apps/web && pnpm run start"
+    "db:build": "pnpm run --filter=@repo/db build",
+    "web:build": "pnpm run --filter=web build",
+    "web:start": "cd apps/web && pnpm run start",
+    "backend:build": "pnpm run --filter=backend build",
+    "backend:start": "cd apps/backend && pnpm run start"
   },
   "devDependencies": {
     "prettier": "^3.7.4",
