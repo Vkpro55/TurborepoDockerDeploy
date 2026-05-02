@@ -13,7 +13,9 @@
     "web:build": "pnpm run --filter=web build",
     "web:start": "cd apps/web && pnpm run start",
     "backend:build": "pnpm run --filter=backend build",
-    "backend:start": "cd apps/backend && pnpm run start"
+    "backend:start": "cd apps/backend && pnpm run start",
+    "websocket:build": "pnpm run --filter=websocket build",
+    "websocket:start": "cd apps/websocket && pnpm run start"
   },
   "devDependencies": {
     "prettier": "^3.7.4",
