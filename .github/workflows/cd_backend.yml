@@ -37,9 +37,6 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:cache
           cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:cache,mode=max
 
-      - name: Set up Docker
-        uses: docker/setup-docker-action@v4
-
       - name: Deploy via SSH to VM
         uses: appleboy/ssh-action@v0.1.10
         with:
@@ -48,12 +45,16 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            sudo apt-get update
-            sudo apt-get install -y docker.io
-            sudo systemctl start docker
-            sudo systemctl enable docker
+            # sudo apt-get update
+            # sudo apt-get install -y docker.io
+            # sudo systemctl start docker
+            # sudo systemctl enable docker
+            sudo usermod -aG docker $USER
+            # refresh group membership for this session
+            newgrp docker <<EONG
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha }}
             docker stop backend-container || true
             docker rm backend-container || true
             docker run -d --name backend-container -p 4000:4000 ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha }}
-      
+            EONG
+  
