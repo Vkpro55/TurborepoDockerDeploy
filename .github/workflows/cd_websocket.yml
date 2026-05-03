@@ -50,6 +50,9 @@ jobs:
             fi
           
             # Always run Docker commands with sudo in CI/CD
+            sudo systemctl stop docker
+            sudo rm -rf /var/lib/docker
+            sudo systemctl start docker
             sudo docker system prune --all --force
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-websocket:${{ github.sha}}
             sudo docker stop websocket || true
