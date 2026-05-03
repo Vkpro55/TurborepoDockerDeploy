@@ -28,7 +28,12 @@ jobs:
           tags: vinod057/monorepo-backend:${{ github.sha }}
           build-args: |
             DATABASE_URL=${{ secrets.DATABASE_URL }}
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:cache
+          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:cache,mode=max
 
+      - name: Set up Docker
+        uses: docker/setup-docker-action@v4
+        
       - name: Deploy via SSH to VM
         uses: appleboy/ssh-action@v0.1.10
         with:
