@@ -29,16 +29,16 @@ jobs:
           build-args: |
             DATABASE_URL=${{ secrets.DATABASE_URL }}
 
-      # - name: Deploy via SSH to VM
-      #   uses: appleboy/ssh-action@v0.1.10
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: ${{ secrets.SSH_USER }}
-      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     key: 22
-      #     script: |
-      #       docker pull ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha }}
-      #       docker stop backend-container || true
-      #       docker rm backend-container || true
-      #       docker run -d --name backend-container -p 4000:4000 ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha }}
+      - name: Deploy via SSH to VM
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: 22
+          script: |
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha }}
+            docker stop backend-container || true
+            docker rm backend-container || true
+            docker run -d --name backend-container -p 4000:4000 ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha }}
       
