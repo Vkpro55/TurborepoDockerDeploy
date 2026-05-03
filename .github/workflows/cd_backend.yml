@@ -23,7 +23,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
-          file: ./docker/dockerfile.backend
+          file: ./docker/Dockerfile.backend
           push: true
           tags: vinod057/monorepo-backend:${{ github.sha }}
           build-args: |
