@@ -45,10 +45,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            # sudo apt-get update
-            # sudo apt-get install -y docker.io
-            # sudo systemctl start docker
-            # sudo systemctl enable docker
+            sudo apt-get update
+            sudo apt-get install -y docker.io
+            sudo systemctl start docker
+            sudo systemctl enable docker
             sudo usermod -aG docker $USER
             # refresh group membership for this session
             newgrp docker <<EONG
