@@ -9,6 +9,9 @@ COPY packages ./packages
 RUN npm install -g pnpm
 RUN pnpm install 
 
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
+
 RUN pnpm run db:generate
 RUN pnpm run websocket:build
 
