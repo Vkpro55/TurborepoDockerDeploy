@@ -54,5 +54,5 @@ jobs:
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-websocket:${{ github.sha}}
             sudo docker stop websocket || true
             sudo docker rm websocket || true
-            sudo docker run -d --name websocket -p 4000:4000 ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-websocket:${{ github.sha}}
+            sudo docker run -d --name websocket -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-websocket:${{ github.sha}}
 
