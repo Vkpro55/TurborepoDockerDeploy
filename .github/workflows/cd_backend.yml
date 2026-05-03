@@ -45,18 +45,22 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            sudo apt-get update
-            sudo apt-get install -y docker.io
-            sudo systemctl start docker
-            sudo systemctl enable docker
-            sudo usermod -aG docker $USER
-            # refresh group membership for this session
-            newgrp docker <<EONG
-            docker system prune --all --force
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha }}
-            docker stop backend-container || true
-            docker rm backend-container || true
-            docker run -d --name backend-container -p 4000:4000 ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha }}
-            docker exec -it backend-container ss -tlnp
-            EONG
-  
+            if command -v docker &> /dev/null
+            then
+                echo "✅ Docker is already installed."
+                docker --version
+            else
+                echo "Installing Docker..."
+                sudo apt-get update
+                sudo apt-get install -y docker.io
+                sudo systemctl start docker
+                sudo systemctl enable docker
+            fi
+          
+            # Always run Docker commands with sudo in CI/CD
+            sudo docker system prune --all --force
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha}}
+            sudo docker stop backend-container || true
+            sudo docker rm backend-container || true
+            sudo docker run -d --name backend-container -p 4000:4000 ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha}}
+            sudo docker exec backend-container ss -tlnp
