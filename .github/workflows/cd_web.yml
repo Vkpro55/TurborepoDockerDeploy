@@ -69,5 +69,5 @@ jobs:
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-web:${{ github.sha}}
             sudo docker stop web || true
             sudo docker rm web || true
-            sudo docker run -d --name web -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-web:${{ github.sha}}
+            sudo docker run -d --name web -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-web:${{ github.sha}}
 
