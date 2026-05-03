@@ -64,3 +64,5 @@ jobs:
             sudo docker rm backend-container || true
             sudo docker run -d --name backend-container -p 4000:4000 ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha}}
             sudo docker port backend-container
+            sudo docker logs backend-container
+            sudo curl http://localhost:4000/
