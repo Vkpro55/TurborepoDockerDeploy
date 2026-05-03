@@ -1,7 +1,7 @@
 import { WebSocketServer } from "ws";
 import prisma from "@repo/db/client";
 
-const wss = new WebSocketServer({ port: 8080 });
+const wss = new WebSocketServer({ port: 8080, host: "0.0.0.0"});
 
 wss.on("connection", function connection(ws) {
   ws.on("error", console.error);
