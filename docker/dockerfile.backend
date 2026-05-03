@@ -11,6 +11,7 @@ RUN pnpm install
 
 ARG DATABASE_URL
 
+RUN pnpm run db:build
 RUN DATABASE_URL=${DATABASE_URL} pnpm run db:generate
 RUN pnpm run backend:build
 
