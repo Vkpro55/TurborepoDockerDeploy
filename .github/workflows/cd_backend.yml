@@ -63,4 +63,4 @@ jobs:
             sudo docker stop backend-container || true
             sudo docker rm backend-container || true
             sudo docker run -d --name backend-container -p 4000:4000 ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha}}
-            sudo docker exec backend-container ss -tlnp
+            sudo docker port backend-container
