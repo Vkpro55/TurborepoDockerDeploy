@@ -26,6 +26,8 @@ jobs:
           file: ./docker/dockerfile.backend
           push: true
           tags: vinod057/monorepo-backend:${{ github.sha }}
+          build-args: |
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
 
       # - name: Deploy via SSH to VM
       #   uses: appleboy/ssh-action@v0.1.10

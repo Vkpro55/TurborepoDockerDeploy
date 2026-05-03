@@ -9,7 +9,9 @@ COPY packages ./packages
 RUN npm install -g pnpm
 RUN pnpm install 
 
-RUN pnpm run db:generate
+ARG DATABASE_URL
+
+RUN DATABASE_URL=${DATABASE_URL} pnpm run db:generate
 RUN pnpm run backend:build
 
 EXPOSE 4000
