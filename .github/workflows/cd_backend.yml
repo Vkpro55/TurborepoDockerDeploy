@@ -52,6 +52,7 @@ jobs:
             sudo usermod -aG docker $USER
             # refresh group membership for this session
             newgrp docker <<EONG
+            docker system prune --all --force
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha }}
             docker stop backend-container || true
             docker rm backend-container || true
