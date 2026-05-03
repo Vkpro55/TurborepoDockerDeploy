@@ -9,8 +9,12 @@ COPY packages ./packages
 RUN npm install -g pnpm
 RUN pnpm install 
 
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
+
 RUN pnpm run db:generate
-RUN pnpm run web:build
+RUN pnpm run db:build
+RUN pnpm run backend:build
 
 EXPOSE 3000
 CMD ["sh", "-c", "pnpm run db:migrate && pnpm run web:start"]
