@@ -32,6 +32,8 @@ app.post("/user", async (req, res) => {
   });
 });
 
+// by default bind to localhost, so it only listens to the traffic coming from your machine or ec2 machine
+// 
 app.listen(4000, '0.0.0.0', () => {
   console.log('Server running on 0.0.0.0:4000');
 });
