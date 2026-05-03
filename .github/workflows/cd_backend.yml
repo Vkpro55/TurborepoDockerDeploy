@@ -57,5 +57,6 @@ jobs:
             docker stop backend-container || true
             docker rm backend-container || true
             docker run -d --name backend-container -p 4000:4000 ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha }}
+            docker exec -it backend-container ss -tlnp
             EONG
   
