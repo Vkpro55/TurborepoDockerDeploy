@@ -48,6 +48,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            sudo apt-get update
+            sudo apt-get install -y docker.io
+            sudo systemctl start docker
+            sudo systemctl enable docker
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha }}
             docker stop backend-container || true
             docker rm backend-container || true
