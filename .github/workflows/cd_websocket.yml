@@ -1,4 +1,4 @@
-name: Deploy the backend to dev server
+name: Deploy the websocket to dev server
 
 on:
   push:
@@ -23,9 +23,9 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
-          file: ./docker/dockerfile.backend
+          file: ./docker/dockerfile.websocket
           push: true
-          tags: vinod057/monorepo-backend:${{ github.sha }}
+          tags: vinod057/monorepo-websocket:${{ github.sha }}
           build-args: |
             DATABASE_URL=${{ secrets.DATABASE_URL }}
 
@@ -51,8 +51,8 @@ jobs:
           
             # Always run Docker commands with sudo in CI/CD
             sudo docker system prune --all --force
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha}}
-            sudo docker stop backend || true
-            sudo docker rm backend || true
-            sudo docker run -d --name backend -p 4000:4000 ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha}}
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-websocket:${{ github.sha}}
+            sudo docker stop websocket || true
+            sudo docker rm websocket || true
+            sudo docker run -d --name websocket -p 4000:4000 ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-websocket:${{ github.sha}}
 
