@@ -52,6 +52,7 @@ jobs:
             # Always run Docker commands with sudo in CI/CD
             sudo docker system prune --all --force
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha}}
-            sudo docker ps -a
+            sudo docker stop backend || true
+            sudo docker rm backend || true
             sudo docker run -d --name backend-container -p 4000:4000 ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-backend:${{ github.sha}}
 
