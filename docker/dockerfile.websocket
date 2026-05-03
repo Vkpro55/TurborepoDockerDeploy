@@ -14,7 +14,7 @@ ENV DATABASE_URL=${DATABASE_URL}
 
 RUN pnpm run db:generate
 RUN pnpm run db:build
-RUN pnpm run backend:build
+RUN pnpm run websocket:build
 
 EXPOSE 8080
 CMD ["pnpm", "run", "websocket:start"]
