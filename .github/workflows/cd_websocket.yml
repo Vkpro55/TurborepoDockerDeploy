@@ -50,7 +50,22 @@ jobs:
             fi
           
             # Always run Docker commands with sudo in CI/CD
-            sudo docker system prune --all --force
+            
+            # Remove stopped containers
+            sudo docker container prune --force
+            
+            # Remove unused images
+            sudo docker image prune --all --force
+            
+            # Remove unused volumes (be careful if you rely on volumes for DBs)
+            sudo docker volume prune --force
+            
+            # Remove unused networks
+            sudo docker network prune --force
+            
+            # Full cleanup (containers, images, networks, volumes)
+            sudo docker system prune --all --volumes --force
+
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/monorepo-websocket:${{ github.sha}}
             sudo docker stop websocket || true
             sudo docker rm websocket || true
