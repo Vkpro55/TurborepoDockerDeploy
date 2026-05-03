@@ -32,4 +32,6 @@ app.post("/user", async (req, res) => {
   });
 });
 
-app.listen(4000);
+app.listen(4000, () => {
+  console.log("Backend server started at 4000");
+});
